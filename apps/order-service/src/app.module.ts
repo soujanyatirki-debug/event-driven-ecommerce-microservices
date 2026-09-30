@@ -26,14 +26,8 @@ import { KafkaProducerService } from '@app/events';
         host: configService.get<string>('POSTGRES_HOST', 'localhost'),
         port: configService.get<number>('POSTGRES_PORT', 5432),
         username: configService.get<string>('POSTGRES_USER', 'postgres'),
-        password: configService.get<string>(
-          'POSTGRES_PASSWORD',
-          'postgres',
-        ),
-        database: configService.get<string>(
-          'POSTGRES_DB',
-          'ecommerce',
-        ),
+        password: configService.get<string>('POSTGRES_PASSWORD', 'postgres'),
+        database: configService.get<string>('POSTGRES_DB', 'ecommerce'),
         entities: [OutboxEvent, Order],
         synchronize: true,
       }),
@@ -62,10 +56,7 @@ import { KafkaProducerService } from '@app/events';
           .filter(Boolean);
 
         return new Kafka({
-          clientId: configService.get<string>(
-            'KAFKA_CLIENT_ID',
-            'order-service',
-          ),
+          clientId: configService.get<string>('KAFKA_CLIENT_ID', 'order-service'),
           brokers,
         });
       },

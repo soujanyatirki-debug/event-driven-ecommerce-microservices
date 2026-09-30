@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 
 const STATUS_CODE_MAP: Record<number, string> = {
   400: 'BAD_REQUEST',
@@ -37,14 +31,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }>();
 
     const status =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+      exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const message =
-      exception instanceof HttpException
-        ? exception.message
-        : 'Unexpected internal server error';
+      exception instanceof HttpException ? exception.message : 'Unexpected internal server error';
 
     const code = STATUS_CODE_MAP[status] ?? 'INTERNAL_ERROR';
 

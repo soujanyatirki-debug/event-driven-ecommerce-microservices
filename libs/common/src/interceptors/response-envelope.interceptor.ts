@@ -1,9 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -33,9 +28,7 @@ export class ResponseEnvelopeInterceptor<T> implements NestInterceptor<
       return next.handle();
     }
 
-    const request = context
-      .switchToHttp()
-      .getRequest<{ requestId?: string }>();
+    const request = context.switchToHttp().getRequest<{ requestId?: string }>();
 
     return next.handle().pipe(
       map((data) => ({

@@ -45,10 +45,7 @@ export class OutboxService {
 
     for (const event of events) {
       try {
-        await this.kafkaProducer.emit(
-          event.topic as KafkaTopic,
-          event.payload,
-        );
+        await this.kafkaProducer.emit(event.topic as KafkaTopic, event.payload);
 
         event.published = true;
         event.publishedAt = new Date();
@@ -56,19 +53,14 @@ export class OutboxService {
 
         await this.repository.save(event);
 
-        this.logger.log(
-          `Published outbox event ${event.id} to ${event.topic}`,
-        );
+        this.logger.log(`Published outbox event ${event.id} to ${event.topic}`);
       } catch (error) {
         event.retryCount += 1;
-        event.lastError =
-          error instanceof Error ? error.message : String(error);
+        event.lastError = error instanceof Error ? error.message : String(error);
 
         await this.repository.save(event);
 
-        this.logger.error(
-          `Failed to publish outbox event ${event.id}: ${event.lastError}`,
-        );
+        this.logger.error(`Failed to publish outbox event ${event.id}: ${event.lastError}`);
       }
     }
   }

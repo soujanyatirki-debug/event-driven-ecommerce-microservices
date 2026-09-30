@@ -1,10 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  Logger,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -25,31 +19,27 @@ export class LoggingInterceptor implements NestInterceptor {
     if ((context.getType() as string) === 'graphql') {
       return next.handle().pipe(
         tap(() => {
-          this.logger.log(
-            `GraphQL request completed in ${Date.now() - now}ms`,
-          );
+          this.logger.log(`GraphQL request completed in ${Date.now() - now}ms`);
         }),
       );
     }
 
-    const request = context
-      .switchToHttp()
-      .getRequest<{
-        method?: string;
-        originalUrl?: string;
-        requestId?: string;
-      }>();
+    const request = context.switchToHttp().getRequest<{
+      method?: string;
+      originalUrl?: string;
+      requestId?: string;
+    }>();
 
-    return next.handle().pipe(
-      tap(() =>
-        this.logger.log(
-          `${request.method ?? 'UNKNOWN'} ${
-            request.originalUrl ?? '/'
-          } ${Date.now() - now}ms requestId=${
-            request.requestId ?? 'unknown'
-          }`,
+    return next
+      .handle()
+      .pipe(
+        tap(() =>
+          this.logger.log(
+            `${request.method ?? 'UNKNOWN'} ${
+              request.originalUrl ?? '/'
+            } ${Date.now() - now}ms requestId=${request.requestId ?? 'unknown'}`,
+          ),
         ),
-      ),
-    );
+      );
   }
 }

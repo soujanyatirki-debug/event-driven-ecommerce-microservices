@@ -1,30 +1,16 @@
 Event-Driven E-Commerce Microservices Platform
 
-
-
 A scalable e-commerce backend built using TypeScript, NestJS, Apache Kafka, gRPC, GraphQL, PostgreSQL, Docker, and Turborepo.
-
-
 
 The system follows a microservices architecture where services communicate through REST APIs, gRPC, and asynchronous Kafka events.
 
-
-
 Overview
-
-
 
 This project demonstrates an event-driven e-commerce architecture designed for scalability, reliability, and independent service deployment.
 
-
-
 The platform includes separate services for users, products, orders, inventory, payments, notifications, search, and an API Gateway.
 
-
-
 A transactional outbox pattern is implemented in the Order Service to reliably publish order events to Apache Kafka.
-
-
 
 Technology Stack
 
@@ -52,75 +38,59 @@ Package Manager: npm
 
 Microservices
 
-Service	Responsibility
+Service Responsibility
 
-API Gateway	Central entry point for client requests
+API Gateway Central entry point for client requests
 
-User Service	User management and authentication
+User Service User management and authentication
 
-Product Service	Product management
+Product Service Product management
 
-Order Service	Order creation and event publishing
+Order Service Order creation and event publishing
 
-Inventory Service	Inventory operations
+Inventory Service Inventory operations
 
-Payment Service	Payment processing
+Payment Service Payment processing
 
-Notification Service	Event-based notifications
+Notification Service Event-based notifications
 
-Search Service	Product search functionality
+Search Service Product search functionality
 
 Key Features
 
 Event-Driven Architecture
 
-
-
 Apache Kafka is used for asynchronous communication between services.
-
-
 
 Example event:
 
+ORDER_CREATED
 
-
-ORDER\_CREATED
-
-&#x20;     ↓
+&#x20; ↓
 
 Order Service
 
-&#x20;     ↓
+&#x20; ↓
 
 Transactional Outbox
 
-&#x20;     ↓
+&#x20; ↓
 
 Apache Kafka
 
-&#x20;     ↓
+&#x20; ↓
 
 Other Event Consumers
 
 Transactional Outbox
 
-
-
 The Order Service stores the order and its corresponding event in PostgreSQL within the same database transaction.
-
-
 
 The outbox publisher periodically checks for unpublished events and publishes them to Kafka.
 
-
-
 This helps prevent a situation where an order is successfully stored but its corresponding event is lost.
 
-
-
 Outbox records contain:
-
-
 
 Event ID
 
@@ -142,39 +112,27 @@ Last error
 
 gRPC Communication
 
-
-
 gRPC is used for service-to-service communication where low-overhead internal APIs are required.
-
-
 
 GraphQL API
 
-
-
 The API Gateway exposes a GraphQL endpoint:
-
-
 
 POST /graphql
 
-
-
 Example query:
-
-
 
 query {
 
 &#x20; products(page: 1, limit: 10) {
 
-&#x20;   route
+&#x20; route
 
-&#x20;   message
+&#x20; message
 
-&#x20;   page
+&#x20; page
 
-&#x20;   limit
+&#x20; limit
 
 &#x20; }
 
@@ -182,19 +140,11 @@ query {
 
 PostgreSQL
 
-
-
 PostgreSQL stores order and outbox data for the Order Service.
-
-
 
 Docker Support
 
-
-
 Docker Compose configuration is included for running the microservices infrastructure with PostgreSQL, Kafka, Redis, MongoDB, and Elasticsearch.
-
-
 
 Project Structure
 
@@ -204,27 +154,27 @@ nestjs-ecommerce-microservices/
 
 ├── apps/
 
-│   ├── api-gateway/
+│ ├── api-gateway/
 
-│   ├── user-service/
+│ ├── user-service/
 
-│   ├── product-service/
+│ ├── product-service/
 
-│   ├── order-service/
+│ ├── order-service/
 
-│   ├── inventory-service/
+│ ├── inventory-service/
 
-│   ├── payment-service/
+│ ├── payment-service/
 
-│   ├── notification-service/
+│ ├── notification-service/
 
-│   └── search-service/
+│ └── search-service/
 
 │
 
 ├── libs/
 
-│   └── events/
+│ └── events/
 
 │
 
@@ -260,33 +210,33 @@ Order Service
 
 &#x20; +-------------------+
 
-&#x20; | PostgreSQL        |
+&#x20; | PostgreSQL |
 
-&#x20; |                   |
+&#x20; | |
 
-&#x20; |  orders           |
+&#x20; | orders |
 
-&#x20; |  outbox\_events    |
+&#x20; | outbox_events |
 
 &#x20; +-------------------+
 
-&#x20;          |
+&#x20; |
 
-&#x20;          v
+&#x20; v
 
-&#x20;  Outbox Publisher
+&#x20; Outbox Publisher
 
-&#x20;          |
+&#x20; |
 
-&#x20;          v
+&#x20; v
 
-&#x20;     Apache Kafka
+&#x20; Apache Kafka
 
-&#x20;          |
+&#x20; |
 
-&#x20;          v
+&#x20; v
 
-&#x20;  Event Consumers
+&#x20; Event Consumers
 
 Local Development
 
@@ -316,11 +266,7 @@ Run the Order Service
 
 npm run dev --workspace=@app/order-service
 
-
-
 The Order Service runs on:
-
-
 
 http://localhost:3003
 
@@ -328,11 +274,7 @@ Health Check
 
 curl http://localhost:3003/health
 
-
-
 Example response:
-
-
 
 {
 
@@ -352,11 +294,7 @@ curl -X POST "http://localhost:3003/orders" \\
 
 \-d "{\\"userId\\":\\"user-202\\",\\"productId\\":\\"product-202\\",\\"quantity\\":3}"
 
-
-
 Example response:
-
-
 
 {
 
@@ -370,11 +308,7 @@ Example response:
 
 Verification
 
-
-
 The implemented Order Service was tested locally with:
-
-
 
 PostgreSQL running on port 5432
 
@@ -408,11 +342,6 @@ Deploy services to a cloud environment
 
 Author
 
-
-
 Soujanya Tirki
 
-
-
 B.E. Computer Science and Engineering
-

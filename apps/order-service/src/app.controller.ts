@@ -24,10 +24,6 @@ export class AppController {
       quantity: number;
     },
   ) {
-    return this.appService.createOrder(
-      body.userId,
-      body.productId,
-      body.quantity,
-    );
+    return this.appService.createOrder(body.userId, body.productId, body.quantity);
   }
 }

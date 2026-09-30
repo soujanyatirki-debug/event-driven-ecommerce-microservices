@@ -42,10 +42,7 @@ import { ProductsResolver } from './graphql/products.resolver';
     UsersModule,
   ],
 
-  providers: [
-    CircuitBreakerService,
-    ProductsResolver,
-  ],
+  providers: [CircuitBreakerService, ProductsResolver],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

@@ -1,23 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { DataSource } from 'typeorm';
 
 import { AppService } from './app.service';
-import { OutboxService } from './outbox/outbox.service';
 
 describe('AppService', () => {
   let service: AppService;
 
-  const outboxServiceMock = {
-    saveEvent: jest.fn(),
-    publishPendingEvents: jest.fn(),
+  const dataSourceMock = {
+    transaction: jest.fn(),
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AppService,
         {
-          provide: OutboxService,
-          useValue: outboxServiceMock,
+          provide: DataSource,
+          useValue: dataSourceMock,
         },
       ],
     }).compile();
@@ -32,7 +33,11 @@ describe('AppService', () => {
   it('should return order-service health status', () => {
     const result = service.getHealth();
 
-    expect(result.service).toBe('order-service');
-    expect(result.status).toBe('ok');
+    expect(result).toEqual(
+      expect.objectContaining({
+        service: 'order-service',
+        status: 'ok',
+      }),
+    );
   });
 });

@@ -64,8 +64,7 @@ export class AppService {
     return {
       orderId,
       status: 'CREATED',
-      message:
-        'Order created and event stored in the transactional outbox',
+      message: 'Order created and event stored in the transactional outbox',
     };
   }
 }
