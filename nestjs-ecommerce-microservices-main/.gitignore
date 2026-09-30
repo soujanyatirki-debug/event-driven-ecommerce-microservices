@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.env.local
+INTERVIEW_PREP.md
+coverage/
+.turbo/
+*.tsbuildinfo
